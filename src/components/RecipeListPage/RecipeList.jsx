@@ -69,7 +69,7 @@ const RecipeList = ({ callModalWindow }) => {
                     elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
                 </div>
                 <div className="manipulateButtonsContainer">
-                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => callModalWindow('edit')}>
+                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => callModalWindow('change')}>
                         Edit
                     </Button>
                     <Button variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>

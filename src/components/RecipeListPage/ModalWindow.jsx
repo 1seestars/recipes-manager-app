@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { callModalWindow } from '../../store/recipesList/actions'
 import { reduxForm } from 'redux-form'
+import Button from '@material-ui/core/Button'
 
 const getModalStyle = () => {
   const top = 50
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme =>
     paper: {
       position: 'absolute',
       width: '40%',
-      minHeight: '60%',
+      minHeight: '40%',
       backgroundColor: theme.palette.background.paper,
       borderRadius: '1%',
       outline: 'none',
@@ -45,11 +46,12 @@ const ModalWindow = ({ modalWindowType, callModalWindow }) => {
         open={!!modalWindowType}
       >
         <div style={modalStyle} className={classes.paper}>
+        <div style={{ width: '100%', textAlign: 'right' }}><button style={{ width: '30px', height: '30px', borderRadius: '50%', border: 'none', outline: 'none', lineHeight: '20px', fontSize: '20px', margin: '0 -15px 0 0' }} onClick={() => callModalWindow('')}>&times;</button></div>
           <div className="formWrapper">
-            <div><button onClick={() => callModalWindow('')}>Cross</button></div>
-            <div><TextField autoFocus id="outlined-basic" label="Outlined" variant="outlined" style={{ width: '100%', margin: '5% 0 8%' }} /></div>
+            <div><TextField id="outlined-basic" label="Outlined" variant="outlined" style={{ width: '100%', margin: '4% 0 8%' }} /></div>
             <div><textarea></textarea></div>
           </div>
+  <div><Button variant="contained" style={{ width: '120px', margin: '1% 5px 0' }}>Clear</Button><Button variant="contained" color="primary" style={{ width: '120px', margin: '1% 5px 0' }}>{modalWindowType}</Button></div>
         </div>
       </Modal>
     </div>

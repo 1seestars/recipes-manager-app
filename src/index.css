@@ -39,8 +39,8 @@ code {
 
 .formWrapper {
   width: 90%;
-  height: 23vw;
-  margin: 2% auto;
+  min-height: 10vw;
+  margin: 1% auto;
 }
 
 .formWrapper textarea {
