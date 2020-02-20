@@ -1,7 +1,7 @@
 import React from 'react'
-import { HeadButtons } from './HeadButtons'
+import HeadButtons from './HeadButtons'
 import RecipeList from './RecipeList'
-import SimpleModal from './ModalWindow'
+import ModalWindow from './ModalWindow'
 
 class MainPage extends React.Component {
     render() {
@@ -9,7 +9,7 @@ class MainPage extends React.Component {
             <div className="wrapper">
                 <div><HeadButtons /></div>
                 <div><RecipeList /></div>
-                <div><SimpleModal /></div>
+                <div><ModalWindow /></div>
             </div>
         )
     }

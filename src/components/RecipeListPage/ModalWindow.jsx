@@ -2,8 +2,12 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { callModalWindow } from '../../store/recipesList/actions'
+import { reduxForm } from 'redux-form'
 
-function getModalStyle() {
+const getModalStyle = () => {
   const top = 50
   const left = 50
 
@@ -24,39 +28,42 @@ const useStyles = makeStyles(theme =>
       borderRadius: '1%',
       outline: 'none',
       padding: theme.spacing(2, 4, 3),
+      textAlign: 'center'
     },
   }),
 );
 
-export default function SimpleModal() {
+const ModalWindow = ({ modalWindowType, callModalWindow }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={!!modalWindowType}
       >
         <div style={modalStyle} className={classes.paper}>
-        <div><TextField id="outlined-basic" label="Outlined" variant="outlined" /></div>
-        <div><textarea style={{ width: '20%', height: '200px', resize: 'none' }}></textarea></div>
+          <div className="formWrapper">
+            <div><button onClick={() => callModalWindow('')}>Cross</button></div>
+            <div><TextField autoFocus id="outlined-basic" label="Outlined" variant="outlined" style={{ width: '100%', margin: '5% 0 8%' }} /></div>
+            <div><textarea></textarea></div>
+          </div>
         </div>
       </Modal>
     </div>
   );
 }
+
+const mapStateToProps = ({ recipeList: { modalWindowType } }) => (
+  {
+    modalWindowType
+  }
+) 
+
+const mapDispatchToProps = {
+  callModalWindow
+}
+
+export default compose(reduxForm({ form: 'recipeForm' }), connect(mapStateToProps, mapDispatchToProps))(ModalWindow)

@@ -6,6 +6,8 @@ import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/DeleteOutlined';
+import { connect } from 'react-redux';
+import { callModalWindow } from '../../store/recipesList/actions'
 
 const ExpansionPanel = withStyles({
   root: {
@@ -46,7 +48,7 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
-export default function RecipeList() {
+const RecipeList = ({ callModalWindow }) => {
   const [expanded, setExpanded] = React.useState();
 
   const handleChange = panel => (event, newExpanded) => {
@@ -67,7 +69,7 @@ export default function RecipeList() {
                     elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
                 </div>
                 <div className="manipulateButtonsContainer">
-                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }}>
+                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => callModalWindow('edit')}>
                         Edit
                     </Button>
                     <Button variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
@@ -107,3 +109,9 @@ export default function RecipeList() {
     </div>
   );
 }
+
+const mapDispatchToProps = {
+  callModalWindow
+}
+
+export default connect(null, mapDispatchToProps)(RecipeList)
