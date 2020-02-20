@@ -67,14 +67,14 @@ export default function RecipeList() {
                     elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
                 </div>
                 <div className="manipulateButtonsContainer">
-                    <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0' }}>
-                        Delete
-                    </Button>
-                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange" }}>
+                    <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }}>
                         Edit
                     </Button>
-                    <Button variant="outlined" color="primary" style={{ margin: '2% 1% 0' }}>
+                    <Button variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
                         ↺ Versions
+                    </Button>
+                    <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0', width: '120px' }}>
+                        Delete
                     </Button>
                 </div>
             </Typography>
