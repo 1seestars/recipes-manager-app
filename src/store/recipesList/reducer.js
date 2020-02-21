@@ -5,7 +5,7 @@ export const recipeListReducer = (state = { recipes: [], modalWindowType: '', is
         case CALL_MODAL_WINDOW:
             return { ...state, modalWindowType: action.payload }
         case SET_RECIPES:
-            return { ...state, users: action.payload }
+            return { ...state, recipes: action.payload }
         case SET_LOADING:
             return { ...state, isLoading: action.payload }
         case SET_ERROR:

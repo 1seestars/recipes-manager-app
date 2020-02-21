@@ -4,10 +4,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { callModalWindow } from '../../store/recipesList/actions'
 import { connect } from 'react-redux';
 
-export const HeadButtons = ({ callModalWindow }) => {
+export const HeadButtons = ({ recipes, isLoading, networkError, callModalWindow }) => {
     return(
         <div className="headButtonsContainer">
-            <Button variant="contained" color="secondary" startIcon={<DeleteIcon />}>
+            <Button disabled={isLoading || !!networkError || !recipes} variant="contained" color="secondary" startIcon={<DeleteIcon />}>
                 Delete All
             </Button>
             <Button variant="contained" color="primary" onClick={() => callModalWindow('add')}>
@@ -17,8 +17,16 @@ export const HeadButtons = ({ callModalWindow }) => {
     )
 }
 
+const mapStateToProps = ({ recipeList: { recipes, isLoading, networkError } }) => (
+    {
+        recipes,
+        isLoading,
+        networkError
+    }
+) 
+
 const mapDispatchToProps = {
     callModalWindow
 }
   
-export default connect(null, mapDispatchToProps)(HeadButtons)
+export default connect(mapStateToProps, mapDispatchToProps)(HeadButtons)

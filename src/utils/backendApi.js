@@ -1,18 +1,20 @@
+import axios from 'axios'
 const BACKEND_URL = 'http://localhost:4000/'
 
 export const apiCall = async (route, method, body) => {
     const url = `${BACKEND_URL}${route}`
-    const options = {
+    const config = {
         method,
+        url,
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json'
         }
     }
 
-    if(body) {
-        options.body = JSON.stringify(body)
+    if (body) {
+        config.data = JSON.stringify(body)
     }
 
-    const response = await fetch(url, options)
-    return response.json()
+    const response = await axios(config)
+    return response.data
 }

@@ -59,3 +59,27 @@ code {
 .formWrapper textarea:focus {
   border: 2px solid #303f9f;
 }
+
+.emptyRecipeListAlert {
+  width: 80%;
+  height: 100px;
+  font-size: 20px;
+  line-height: 100px;
+  text-align: left;
+  margin: 100px auto;
+  background: #ffecb3;
+  color: #540800;
+  border-radius: 7px;
+}
+
+.badConnectAlert {
+  width: 80%;
+  height: 100px;
+  font-size: 20px;
+  line-height: 100px;
+  text-align: left;
+  margin: 0 auto;
+  background: #ffd8d3;
+  color: #540800;
+  border-radius: 7px;
+}

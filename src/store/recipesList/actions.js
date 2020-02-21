@@ -15,7 +15,7 @@ export const getRecipes = () => async dispatch => {
         const data = await apiCall('recipes', 'GET')
         dispatch(setRecipes(data))
     } catch (e) {
-        dispatch(setError('Failed to load recipes'))
+        dispatch(setError(e.message))
     } finally {
         dispatch(setLoading(false))
     }
