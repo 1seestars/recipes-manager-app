@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { callModalWindow, addRecipe } from '../../store/recipeList/actions'
+import { callModalWindow } from '../../store/modalWindow/actions'
 import { Field, reduxForm } from 'redux-form'
 import Button from '@material-ui/core/Button'
 
@@ -74,7 +74,7 @@ const RenderTextareaField = ({ input, placeholder, label, type, meta: { touched,
     </>
 )
 
-const ModalWindow = ({ recipes, modalWindowType, callModalWindow, addRecipe, handleSubmit, pristine, reset, submitting, currentId }) => {
+const ModalWindow = ({ modalWindowType, callModalWindow, handleSubmit, pristine, reset, submitting, initialValues }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -87,10 +87,6 @@ const ModalWindow = ({ recipes, modalWindowType, callModalWindow, addRecipe, han
     callModalWindow('')
     reset()
   }
-  
-  const currentRecipe = recipes.find(item => item._id === currentId)
-  const showName = !!currentRecipe ? currentRecipe.name : ''
-  const showDescription = !!currentRecipe ? currentRecipe.versions[currentRecipe.versions.length - 1].description : ''
 
   return (
     <div>
@@ -124,18 +120,15 @@ const ModalWindow = ({ recipes, modalWindowType, callModalWindow, addRecipe, han
   );
 }
 
-const mapStateToProps = ({ recipeList: { recipes, modalWindowType, isLoading, networkError } }) => (
+const mapStateToProps = ({ modalWindow: { modalWindowType, initialValues } }) => (
   {
-      recipes,
       modalWindowType,
-      isLoading,
-      networkError
+      initialValues
   }
 ) 
 
 const mapDispatchToProps = {
-  callModalWindow,
-  addRecipe
+  callModalWindow
 }
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), reduxForm({ form: 'recipeForm', enableReinitialize: true }))(ModalWindow)

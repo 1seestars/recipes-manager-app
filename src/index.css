@@ -87,3 +87,8 @@ code {
   color: #540800;
   border-radius: 7px;
 }
+
+#panel1d-header:hover {
+  background: rgb(223, 227, 255);
+  border-radius: 3px;
+}

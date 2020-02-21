@@ -3,7 +3,8 @@ import HeadButtons from './HeadButtons'
 import RecipeList from './RecipeList'
 import ModalWindow from './ModalWindow'
 import { connect } from 'react-redux'
-import { getRecipes, addRecipe, editRecipe, callModalWindow } from '../../store/recipeList/actions'
+import { getRecipes, addRecipe, editRecipe } from '../../store/recipeList/actions'
+import { callModalWindow } from '../../store/modalWindow/actions'
 
 class MainPage extends React.Component {
     state = {
@@ -29,13 +30,13 @@ class MainPage extends React.Component {
             <div className="wrapper">
                 <div><HeadButtons /></div>
                 <div><RecipeList changeId={this.changeCurrentId} /></div>
-                <div><ModalWindow onSubmit={this.onSubmit} currentId={this.state.currentEditId}/></div>
+                <div><ModalWindow onSubmit={this.onSubmit} /></div>
             </div>
         )
     }
 }
 
-const mapStateToProps = ({ recipeList: { recipes, modalWindowType, isLoading, networkError } }) => (
+const mapStateToProps = ({ modalWindow: { modalWindowType } }) => (
     {
         modalWindowType
     }
