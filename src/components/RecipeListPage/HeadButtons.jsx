@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete';
-import { deleteAllRecipes, callModalWindow } from '../../store/recipesList/actions'
+import { deleteAllRecipes, callModalWindow } from '../../store/recipeList/actions'
 import { connect } from 'react-redux';
 
 export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, callModalWindow }) => {

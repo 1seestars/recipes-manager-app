@@ -3,11 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 import { connect } from 'react-redux';
-import { deleteRecipe, callModalWindow } from '../../store/recipesList/actions'
+import { deleteRecipe, callModalWindow } from '../../store/recipeList/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom'
 
@@ -50,12 +49,17 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
-const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, deleteRecipe, callModalWindow }) => {
+const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, deleteRecipe, callModalWindow, changeId }) => {
   const [expanded, setExpanded] = React.useState();
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
+  const handleSubmit = id => {
+    callModalWindow('change')
+    changeId(id)
+  }
 
   if (isLoading) {
       return (
@@ -71,25 +75,23 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, deleteR
                 <div className="recipeListWrapper">
                 <ExpansionPanel expanded={expanded === index} onChange={handleChange(index)}>
                   <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                      <Typography style={{ fontSize: '20px', fontWeight: '700' }}>{recipe.name}</Typography>
+                      <div style={{ fontSize: '20px', fontWeight: '700' }}>{recipe.name}</div>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                      <Typography>
                           <div className="recipePanelContent">
                             {recipe.versions[recipe.versions.length - 1].description}
                           </div>
                           <div className="manipulateButtonsContainer">
-                              <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => callModalWindow('change')}>
+                              <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => handleSubmit(recipe._id)}>
                                   Edit
                               </Button>
-                              <Link style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}><Button disabled={recipe.versions.length < 2} variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
+                              <Link disabled style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}><Button disabled={recipe.versions.length < 2} variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
                                   ↺ Versions
                               </Button></Link>
                               <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0', width: '120px' }} onClick={() => deleteRecipe(`recipe/${recipe._id}`)}>
                                   Delete
                               </Button>
                           </div>
-                      </Typography>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
                 </div>
@@ -104,7 +106,6 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, deleteR
           )
       }
   } else {
-    console.log('oshibka')
       return (
           <div className='badConnectAlert'>
               <span style={{ fontWeight: '700', margin: '0 20px 0 40px' }}>✖</span><span style={{ fontWeight: '700' }}>{networkError}</span>

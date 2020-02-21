@@ -1,5 +1,5 @@
 import React from 'react'
-import { getRecipes } from '../../store/recipesList/actions'
+import { getRecipes } from '../../store/recipeList/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 
