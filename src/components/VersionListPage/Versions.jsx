@@ -13,7 +13,7 @@ class Versions extends React.Component {
         if (isLoading) {
             return (
                 <div style={{ width: '100%', padding: '150px 0', textAlign: 'center' }}>
-                    <CircularProgress color='#3f51b5' />
+                    <CircularProgress color='primary' />
                 </div>
             ) 
         } else if (!networkError) {

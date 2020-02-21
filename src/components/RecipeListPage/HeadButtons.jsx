@@ -1,13 +1,13 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete';
-import { callModalWindow } from '../../store/recipesList/actions'
+import { deleteAllRecipes, callModalWindow } from '../../store/recipesList/actions'
 import { connect } from 'react-redux';
 
-export const HeadButtons = ({ recipes, isLoading, networkError, callModalWindow }) => {
+export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, callModalWindow }) => {
     return(
         <div className="headButtonsContainer">
-            <Button disabled={isLoading || !!networkError || !recipes} variant="contained" color="secondary" startIcon={<DeleteIcon />}>
+            <Button disabled={!!networkError || !recipes.length} variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={deleteAllRecipes}>
                 Delete All
             </Button>
             <Button variant="contained" color="primary" onClick={() => callModalWindow('add')}>
@@ -17,15 +17,15 @@ export const HeadButtons = ({ recipes, isLoading, networkError, callModalWindow 
     )
 }
 
-const mapStateToProps = ({ recipeList: { recipes, isLoading, networkError } }) => (
+const mapStateToProps = ({ recipeList: { recipes, networkError } }) => (
     {
         recipes,
-        isLoading,
         networkError
     }
 ) 
 
 const mapDispatchToProps = {
+    deleteAllRecipes,
     callModalWindow
 }
   

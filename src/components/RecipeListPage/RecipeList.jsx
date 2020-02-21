@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 import { connect } from 'react-redux';
-import { callModalWindow } from '../../store/recipesList/actions'
+import { deleteRecipe, callModalWindow } from '../../store/recipesList/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Link } from 'react-router-dom'
 
 const ExpansionPanel = withStyles({
   root: {
@@ -49,7 +50,7 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
-const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, callModalWindow }) => {
+const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, deleteRecipe, callModalWindow }) => {
   const [expanded, setExpanded] = React.useState();
 
   const handleChange = panel => (event, newExpanded) => {
@@ -59,11 +60,10 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, callMod
   if (isLoading) {
       return (
           <div style={{ width: '100%', padding: '150px 0', textAlign: 'center' }}>
-              <CircularProgress color='#3f51b5' />
+              <CircularProgress color="primary" />
           </div>
       ) 
   } else if (!networkError) {
-    console.log(recipes)
       if (recipes.length) {
           return (
             <div>
@@ -71,7 +71,7 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, callMod
                 <div className="recipeListWrapper">
                 <ExpansionPanel expanded={expanded === index} onChange={handleChange(index)}>
                   <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                      <Typography>{recipe.name}</Typography>
+                      <Typography style={{ fontSize: '20px', fontWeight: '700' }}>{recipe.name}</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                       <Typography>
@@ -82,10 +82,10 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, callMod
                               <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => callModalWindow('change')}>
                                   Edit
                               </Button>
-                              <Button variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
+                              <Link style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}><Button disabled={recipe.versions.length < 2} variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
                                   ↺ Versions
-                              </Button>
-                              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0', width: '120px' }}>
+                              </Button></Link>
+                              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0', width: '120px' }} onClick={() => deleteRecipe(`recipe/${recipe._id}`)}>
                                   Delete
                               </Button>
                           </div>
@@ -99,7 +99,7 @@ const RecipeList = ({ recipes, modalWindowType, isLoading, networkError, callMod
       } else {
           return (
               <div className='emptyRecipeListAlert'>
-                  <span style={{ fontWeight: '700', margin: '0 20px 0 40px' }}>⚠</span><span style={{ fontWeight: '700' }}>There are no recipes:</span><span> click "ADD" button</span>
+                  <span style={{ fontWeight: '700', margin: '0 20px 0 40px' }}>⚠</span><span style={{ fontWeight: '700' }}>There are no recipes</span>
               </div>
           )
       }
@@ -123,6 +123,7 @@ const mapStateToProps = ({ recipeList: { recipes, modalWindowType, isLoading, ne
 ) 
 
 const mapDispatchToProps = {
+  deleteRecipe,
   callModalWindow
 }
 

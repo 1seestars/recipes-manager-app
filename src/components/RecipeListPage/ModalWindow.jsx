@@ -42,9 +42,10 @@ const ModalWindow = ({ recipes, modalWindowType, isLoading, networkError, callMo
     e.preventDefault()
     const body = {
       name: 'lalalalal',
-      description: 'polnaya pizda'
+      description: 'some description'
     }
     addRecipe(body)
+    callModalWindow('')
   }
 
   return (
@@ -60,7 +61,7 @@ const ModalWindow = ({ recipes, modalWindowType, isLoading, networkError, callMo
           <div className="formWrapper">
             
             <div><TextField id="outlined-basic" label="Outlined" variant="outlined" style={{ width: '100%', margin: '4% 0 8%' }} /></div>
-            <div><textarea onChange={e => console.log(e.target.value)}></textarea></div>
+            <div><textarea></textarea></div>
           </div>
   <div><Button variant="contained" style={{ width: '120px', margin: '1% 5px 0' }}>Clear</Button><Button variant="contained" color="primary" style={{ width: '120px', margin: '1% 5px 0' }} type='submit'>{modalWindowType}</Button></div>
   </form>
