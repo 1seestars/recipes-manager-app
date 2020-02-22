@@ -4,7 +4,7 @@ import RecipeList from './RecipeList'
 import ModalWindow from './ModalWindow'
 import { connect } from 'react-redux'
 import { getRecipes, addRecipe, editRecipe } from '../../store/recipeList/actions'
-import { callModalWindow } from '../../store/modalWindow/actions'
+import { toggleModalWindowType } from '../../store/modalWindow/actions'
 
 class MainPage extends React.Component {
     state = {
@@ -18,7 +18,7 @@ class MainPage extends React.Component {
     onSubmit = values => {
         const route = `recipe/${this.state.currentEditId}`
         this.props.modalWindowType === 'add' ? this.props.addRecipe(values) : this.props.editRecipe(route, values)
-        this.props.callModalWindow('')
+        this.props.toggleModalWindowType('')
     }
 
     changeCurrentId = id => {
@@ -46,7 +46,7 @@ const mapDispatchToProps = {
     getRecipes,
     addRecipe,
     editRecipe,
-    callModalWindow
+    toggleModalWindowType
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

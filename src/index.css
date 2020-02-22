@@ -39,28 +39,21 @@ code {
   margin: 1% auto;
 }
 
-.emptyRecipeListAlert {
-  width: 80%;
-  height: 100px;
-  font-size: 20px;
-  line-height: 100px;
-  text-align: left;
-  margin: 100px auto;
-  background: #ffecb3;
-  color: #540800;
-  border-radius: 7px;
-}
-
-.badConnectAlert {
+.emptyRecipeListAlert, .badConnectAlert {
   width: 80%;
   height: 100px;
   font-size: 20px;
   line-height: 100px;
   text-align: left;
   margin: 0 auto;
-  background: #ffd8d3;
+  background: #ffecb3;
   color: #540800;
   border-radius: 7px;
+  display: flex;
+}
+
+.badConnectAlert {
+  background: #ffd8d3;
 }
 
 #panel1d-header {
@@ -105,6 +98,39 @@ code {
   display: flexbox;
 }
 
+.versionsWrapper {
+  text-align: center;
+}
+
+.versionsHeader {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  margin: 5% auto;
+  padding: 2%;
+  color: white;
+  background: #3f51b5;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.recipeVersionWrapper {
+  width: 50%;
+  margin: 2% auto;
+  padding: 2%;
+  background: white;
+  border-radius: 10px;
+  transition: 0.3s;
+  overflow: scroll;
+}
+
+.recipeVersionWrapper:hover {
+  box-shadow: 0px 0px 8px 0px rgba(56,56,56,1);
+  cursor: pointer;
+  transition: 0.3s;
+  transform: scale(1.01);
+}
+
 @media (max-width: 700px) {
   .manipulateButtonsContainer {
     width: 100%;
@@ -134,6 +160,10 @@ code {
   .recipePanelContent {
     margin: 1% 0 12%;
   }
+
+  .emptyRecipeListAlert, .badConnectAlert {
+    height: 200px;
+  }
 }
 
 @media (max-width: 320px) {
@@ -142,22 +172,6 @@ code {
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-::-webkit-scrollbar:horizontal {
-  display: none;
-}
-
-::-webkit-scrollbar-track {
-  display: none;
-}
- 
-::-webkit-scrollbar-thumb {
-  display: none;
-}
-
-::-webkit-scrollbar-corner {
+::-webkit-scrollbar, ::-webkit-scrollbar:horizontal, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-corner {
   display: none;
 }

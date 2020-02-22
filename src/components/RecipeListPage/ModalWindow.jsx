@@ -1,61 +1,20 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { callModalWindow } from '../../store/modalWindow/actions'
+import { toggleModalWindowType } from '../../store/modalWindow/actions'
 import { Field, reduxForm } from 'redux-form'
 import Button from '@material-ui/core/Button'
+import { RenderTextField } from '../RenderTextField'
 
-const RenderTextField = ({ input, placeholder, label, type, meta: { touched, error } }) => (
-    <>
-        <div>
-            <TextField 
-                label={label} 
-                multiline={label === 'Description'}
-                type={type}
-                placeholder={placeholder}
-                autoComplete="off"
-                {...input} 
-                variant="outlined"
-                style={{ width: '100%', margin: '6% 0 2%' }}
-            />
-        </div>
-        <div>
-            {touched && error && <span className="errorSpan">{error}</span>}
-        </div>
-    </>
-)
-
-
-// const RenderTextareaField = ({ input, placeholder, label, type, meta: { touched, error } }) => (
-//     <>
-//         <div>
-//         <TextField
-//           label={label} 
-//           multiline
-//           type={type}
-//           placeholder={placeholder}
-//           autoComplete="off"
-//           {...input}
-//           variant="outlined"
-//           style={{ width: '100%', margin: '4% 0 4%' }}
-//         />
-//         </div>
-//         <div>
-//             {touched && error && <span className="errorSpan">{error}</span>}
-//         </div>
-//     </>
-// )
-
-const ModalWindow = ({ modalWindowType, callModalWindow, handleSubmit, pristine, reset, submitting }) => {
+const ModalWindow = ({ modalWindowType, toggleModalWindowType, handleSubmit, pristine, reset, submitting }) => {
   const submitAction = values => {
     handleSubmit(values)
     reset()
   }
 
   const closeWindow = () => {
-    callModalWindow('')
+    toggleModalWindowType('')
     reset()
   }
 
@@ -99,7 +58,7 @@ const mapStateToProps = ({ modalWindow: { modalWindowType, initialValues } }) =>
 ) 
 
 const mapDispatchToProps = {
-  callModalWindow
+  toggleModalWindowType
 }
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), reduxForm({ form: 'recipeForm', enableReinitialize: true }))(ModalWindow)

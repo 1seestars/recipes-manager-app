@@ -10,7 +10,7 @@ const Root = ({ store }) => (
             <Provider store={store}>
                 <Router>
                     <Route exact path="/" component={MainPage} />
-                    <Route path='/versions/:id' component={Versions} />
+                    <Route path='/:id' component={Versions} />
                 </Router>
             </Provider>
     </MuiThemeProvider>

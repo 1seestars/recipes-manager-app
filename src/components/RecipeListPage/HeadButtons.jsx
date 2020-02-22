@@ -2,12 +2,12 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteAllRecipes } from '../../store/recipeList/actions'
-import { callModalWindow, setInitialData } from '../../store/modalWindow/actions'
+import { toggleModalWindowType, setInitialData } from '../../store/modalWindow/actions'
 import { connect } from 'react-redux';
 
-export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, callModalWindow, setInitialData }) => {
+export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, toggleModalWindowType, setInitialData }) => {
     const handleSubmit = () => {
-        callModalWindow('add')
+        toggleModalWindowType('add')
         setInitialData('')
     }
 
@@ -32,7 +32,7 @@ const mapStateToProps = ({ recipeList: { recipes, networkError } }) => (
 
 const mapDispatchToProps = {
     deleteAllRecipes,
-    callModalWindow,
+    toggleModalWindowType,
     setInitialData
 }
   

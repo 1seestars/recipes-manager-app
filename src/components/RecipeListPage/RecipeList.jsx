@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 import { connect } from 'react-redux';
 import { deleteRecipe } from '../../store/recipeList/actions'
-import { callModalWindow, setInitialData } from '../../store/modalWindow/actions'
+import { toggleModalWindowType, setInitialData } from '../../store/modalWindow/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom'
 
@@ -44,7 +44,7 @@ const ExpansionPanelSummary = withStyles({
   expanded: {},
 })(MuiExpansionPanelSummary);
 
-const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalWindow, changeId, setInitialData }) => {
+const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, toggleModalWindowType, changeId, setInitialData }) => {
   const [expanded, setExpanded] = React.useState();
   const recipesReverse = recipes.reverse()
 
@@ -55,12 +55,12 @@ const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalW
   const showCreationDate = date => {
     const day = date.slice(0, 10)
     const time = date.slice(11, 19)
-    return `Creation date: ${day} ${time} `
+    return `Creation date: ${day} ${time} UTC`
   }
 
-  const handleSubmit = (id, name, description) => {
+  const handleEdit = (id, name, description) => {
     setInitialData({ name, description })
-    callModalWindow('change')
+    toggleModalWindowType('change')
     changeId(id)
   }
 
@@ -86,11 +86,10 @@ const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalW
                           </div>
                           <div className="manipulateButtonsContainer">
                             <div>
-                              <Button variant="contained" color="secondary" style={{ background: "orange", width: '100%' }} onClick={() => handleSubmit(recipe._id, recipe.name, recipe.versions[recipe.versions.length - 1].description)}>
+                              <Button variant="contained" color="secondary" style={{ background: "orange", width: '100%' }} onClick={() => handleEdit(recipe._id, recipe.name, recipe.versions[recipe.versions.length - 1].description)}>
                                   Edit
                               </Button>
                               </div>
-
                               {recipe.versions.length < 2 ? (
                                 <div>
                                   <Button disabled variant="outlined" color="primary" style={{ width: '100%' }}>
@@ -99,7 +98,7 @@ const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalW
                                 </div>
                               ) : (
                                 <div>
-                                  <Link disabled style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}>
+                                  <Link style={{ textDecoration: 'none' }} to={`/${recipe._id}`}>
                                     <Button variant="outlined" color="primary" style={{ width: '100%' }}>
                                       ↺ Versions
                                     </Button>
@@ -144,8 +143,8 @@ const mapStateToProps = ({ recipeList: { recipes, isLoading, networkError } }) =
 
 const mapDispatchToProps = {
   deleteRecipe,
-  callModalWindow,
-  setInitialData
+  toggleModalWindowType,
+  setInitialData,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeList)
