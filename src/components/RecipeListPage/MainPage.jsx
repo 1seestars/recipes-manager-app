@@ -1,52 +1,62 @@
-import React from 'react'
-import HeadButtons from './HeadButtons'
-import RecipeList from './RecipeList'
-import ModalWindow from './ModalWindow'
-import { connect } from 'react-redux'
-import { getRecipes, addRecipe, editRecipe } from '../../store/recipeList/actions'
-import { toggleModalWindowType } from '../../store/modalWindow/actions'
+import React from "react";
+import HeadButtons from "./HeadButtons";
+import RecipeList from "./RecipeList";
+import ModalWindow from "./ModalWindow";
+import { connect } from "react-redux";
+import {
+  getRecipes,
+  addRecipe,
+  editRecipe
+} from "../../store/recipeList/actions";
+import { toggleModalWindowType } from "../../store/modalWindow/actions";
 
 class MainPage extends React.Component {
-    state = {
-        currentEditId: ''
-    }
+  state = {
+    currentEditId: ""
+  };
 
-    componentDidMount() {
-        this.props.getRecipes()
-    }
+  componentDidMount() {
+    this.props.getRecipes();
+  }
 
-    onSubmit = values => {
-        const route = `recipe/${this.state.currentEditId}`
-        this.props.modalWindowType === 'add' ? this.props.addRecipe(values) : this.props.editRecipe(route, values)
-        this.props.toggleModalWindowType('')
-    }
+  onSubmit = values => {
+    const route = `recipe/${this.state.currentEditId}`;
+    this.props.modalWindowType === "add"
+      ? this.props.addRecipe(values)
+      : this.props.editRecipe(route, values);
+    this.props.toggleModalWindowType("");
+  };
 
-    changeCurrentId = id => {
-        this.setState({ currentEditId: id })
-    }
+  changeCurrentId = id => {
+    this.setState({ currentEditId: id });
+  };
 
-    render() {
-        return(
-            <div className="wrapper">
-                <div><HeadButtons /></div>
-                <div><RecipeList changeId={this.changeCurrentId} /></div>
-                <div><ModalWindow onSubmit={this.onSubmit} /></div>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="wrapper">
+        <div>
+          <HeadButtons />
+        </div>
+        <div>
+          <RecipeList changeId={this.changeCurrentId} />
+        </div>
+        <div>
+          <ModalWindow onSubmit={this.onSubmit} />
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = ({ modalWindow: { modalWindowType } }) => (
-    {
-        modalWindowType
-    }
-) 
+const mapStateToProps = ({ modalWindow: { modalWindowType } }) => ({
+  modalWindowType
+});
 
 const mapDispatchToProps = {
-    getRecipes,
-    addRecipe,
-    editRecipe,
-    toggleModalWindowType
-}
+  getRecipes,
+  addRecipe,
+  editRecipe,
+  toggleModalWindowType
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
