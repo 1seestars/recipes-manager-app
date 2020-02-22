@@ -44,18 +44,19 @@ const ExpansionPanelSummary = withStyles({
   expanded: {},
 })(MuiExpansionPanelSummary);
 
-const ExpansionPanelDetails = withStyles(theme => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiExpansionPanelDetails);
-
 const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalWindow, changeId, setInitialData }) => {
   const [expanded, setExpanded] = React.useState();
+  const recipesReverse = recipes.reverse()
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
+  const showCreationDate = date => {
+    const day = date.slice(0, 10)
+    const time = date.slice(11, 19)
+    return `Creation date: ${day} ${time} `
+  }
 
   const handleSubmit = (id, name, description) => {
     setInitialData({ name, description })
@@ -73,28 +74,45 @@ const RecipeList = ({ recipes, isLoading, networkError, deleteRecipe, callModalW
       if (recipes.length) {
           return (
             <div>
-              {recipes.map((recipe, index) => (
+              {recipesReverse.reverse().map((recipe, index) => (
                 <div className="recipeListWrapper">
                 <ExpansionPanel expanded={expanded === index} onChange={handleChange(index)}>
                   <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                      <div style={{ fontSize: '20px', fontWeight: '700' }}>{recipe.name}</div>
+              <div className="expansionPanelHeader"><div style={{ minWidth: '100%', fontSize: '20px', fontWeight: '700', margin: '1% 0' }}>{recipe.name}</div><div style={{ opacity: '0.8', fontStyle: 'Italic', margin: '1% 0' }}>{showCreationDate(recipe.createdAt)}</div></div>
                   </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
+                  <MuiExpansionPanelDetails style={{ display: 'block' }}>
                           <div className="recipePanelContent">
                             {recipe.versions[recipe.versions.length - 1].description}
                           </div>
                           <div className="manipulateButtonsContainer">
-                              <Button variant="contained" color="secondary" style={{ margin: '2% 1% 0', background: "orange", width: '120px' }} onClick={() => handleSubmit(recipe._id, recipe.name, recipe.versions[recipe.versions.length - 1].description)}>
+                            <div>
+                              <Button variant="contained" color="secondary" style={{ background: "orange", width: '100%' }} onClick={() => handleSubmit(recipe._id, recipe.name, recipe.versions[recipe.versions.length - 1].description)}>
                                   Edit
                               </Button>
-                              <Link disabled style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}><Button disabled={recipe.versions.length < 2} variant="outlined" color="primary" style={{ margin: '2% 1% 0', width: '120px' }}>
-                                  ↺ Versions
-                              </Button></Link>
-                              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ margin: '2% 1% 0', width: '120px' }} onClick={() => deleteRecipe(`recipe/${recipe._id}`)}>
+                              </div>
+
+                              {recipe.versions.length < 2 ? (
+                                <div>
+                                  <Button disabled variant="outlined" color="primary" style={{ width: '100%' }}>
+                                    ↺ Versions
+                                  </Button>
+                                </div>
+                              ) : (
+                                <div>
+                                  <Link disabled style={{ textDecoration: 'none' }} to={`/versions/${recipe._id}`}>
+                                    <Button variant="outlined" color="primary" style={{ width: '100%' }}>
+                                      ↺ Versions
+                                    </Button>
+                                  </Link>
+                              </div>
+                              )}
+                              <div>
+                              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} style={{ width: '100%' }} onClick={() => deleteRecipe(`recipe/${recipe._id}`)}>
                                   Delete
                               </Button>
+                              </div>
                           </div>
-                  </ExpansionPanelDetails>
+                  </MuiExpansionPanelDetails>
                 </ExpansionPanel>
                 </div>
               ))}

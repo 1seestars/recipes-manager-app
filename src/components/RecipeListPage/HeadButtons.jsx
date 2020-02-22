@@ -5,7 +5,7 @@ import { deleteAllRecipes } from '../../store/recipeList/actions'
 import { callModalWindow, setInitialData } from '../../store/modalWindow/actions'
 import { connect } from 'react-redux';
 
-export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, callModalWindow }) => {
+export const HeadButtons = ({ recipes, networkError, deleteAllRecipes, callModalWindow, setInitialData }) => {
     const handleSubmit = () => {
         callModalWindow('add')
         setInitialData('')
