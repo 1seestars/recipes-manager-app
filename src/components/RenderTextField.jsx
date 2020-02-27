@@ -17,12 +17,11 @@ export const RenderTextField = ({
         placeholder={placeholder}
         autoComplete="off"
         {...input}
-        variant="outlined"
-        style={{ width: "100%", margin: "6% 0 2%" }}
+        variant={"outlined"}
       />
     </div>
-    <div style={{ textAlign: "left", width: "100%" }}>
-      {touched && error && <span className="errorSpan">{error}</span>}
+    <div>
+      {touched && error && <span>{error}</span>}
     </div>
   </>
 );

@@ -1,52 +1,58 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteAllRecipes } from "../../store/recipeList/actions";
 import {
-  toggleModalWindowType,
-  setInitialData
+  setInitialData,
+  changeModalState
 } from "../../store/modalWindow/actions";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import red from "@material-ui/core/colors/red";
 
-export const HeadButtons = ({
+const HeadButtons = ({
   recipes,
-  networkError,
+  isDeleteAllButtonLoading,
   deleteAllRecipes,
-  toggleModalWindowType,
-  setInitialData
+  setInitialData,
+  changeModalState
 }) => {
-  const handleSubmit = () => {
-    toggleModalWindowType("add");
-    setInitialData("");
+  const handleClick = () => {
+    setInitialData({});
+    changeModalState(true);
   };
 
   return (
-    <div className="headButtonsContainer">
+    <div>
       <Button
-        disabled={!!networkError || !recipes.length}
         variant="contained"
         color="secondary"
-        startIcon={<DeleteIcon />}
+        disabled={!recipes.length}
         onClick={deleteAllRecipes}
       >
-        Delete All
+        {isDeleteAllButtonLoading ? (
+          <CircularProgress size={24} color={red[500]} />
+        ) : (
+          "Delete All"
+        )}
       </Button>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button variant="contained" color="primary" onClick={handleClick}>
         ✚ Add
       </Button>
     </div>
   );
 };
 
-const mapStateToProps = ({ recipeList: { recipes, networkError } }) => ({
+const mapStateToProps = ({
+  recipeList: { recipes, isDeleteAllButtonLoading }
+}) => ({
   recipes,
-  networkError
+  isDeleteAllButtonLoading
 });
 
 const mapDispatchToProps = {
   deleteAllRecipes,
-  toggleModalWindowType,
-  setInitialData
+  setInitialData,
+  changeModalState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeadButtons);

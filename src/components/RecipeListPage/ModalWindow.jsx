@@ -1,109 +1,95 @@
 import React from "react";
-import Modal from "@material-ui/core/Modal";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import validate from '../../validation/validateRecipeInput'
-import { toggleModalWindowType } from "../../store/modalWindow/actions";
+import validate from "../../validation/validateRecipeInput";
 import { Field, reduxForm } from "redux-form";
-import Button from "@material-ui/core/Button";
 import { RenderTextField } from "../RenderTextField";
+import { changeModalState } from "../../store/modalWindow/actions";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import red from "@material-ui/core/colors/red";
 
 const ModalWindow = ({
-  modalWindowType,
-  toggleModalWindowType,
+  initialValues,
+  isModalOpen,
+  isModalSubmitButtonLoading,
+  changeModalState,
   handleSubmit,
   pristine,
   reset,
   submitting
 }) => {
-  const submitAction = values => {
-    handleSubmit(values);
-    reset();
-  };
+  if (!isModalOpen) reset();
 
-  const closeWindow = () => {
-    toggleModalWindowType("");
-    reset();
+  const submitButtonInner = (loading, values) => {
+    if (loading) {
+      return <CircularProgress size={24} color={red[500]} />;
+    } else {
+      if (values) {
+        return "Change";
+      } else {
+        return "Add";
+      }
+    }
   };
 
   return (
     <div>
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={!!modalWindowType}
-      >
-        <div className="modalWindow">
-          <div style={{ width: "100%", textAlign: "right" }}>
-            <button
-              style={{
-                width: "30px",
-                height: "30px",
-                borderRadius: "50%",
-                border: "none",
-                outline: "none",
-                lineHeight: "20px",
-                fontSize: "20px",
-                margin: "5px 5px 0 0",
-                cursor: "pointer",
-                textAlign: "center"
-              }}
-              onClick={closeWindow}
+      <Dialog open={isModalOpen}>
+        <button onClick={() => changeModalState(false)}>&times;</button>
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <Field
+              name="name"
+              component={RenderTextField}
+              label="Recipe name"
+              type="text"
+            />
+            <Field
+              name="description"
+              component={RenderTextField}
+              label="Description"
+              type="text"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={pristine || submitting}
+              variant="contained"
+              type="button"
+              onClick={reset}
             >
-              &times;
-            </button>
-          </div>
-          <form onSubmit={submitAction}>
-            <div className="formWrapper">
-              <Field
-                name="name"
-                component={RenderTextField}
-                label="Recipe name"
-                type="text"
-              />
-              <Field
-                name="description"
-                component={RenderTextField}
-                label="Description"
-                type="text"
-              />
-            </div>
-            <div className="modalWindowButtons">
-              <Button
-                disabled={pristine || submitting}
-                variant="contained"
-                style={{ width: "120px", margin: "0 5px" }}
-                type="button"
-                onClick={reset}
-              >
-                Clear
-              </Button>
-              <Button
-                disabled={pristine || submitting}
-                variant="contained"
-                color="primary"
-                style={{ width: "120px", margin: "0 5px" }}
-                type="submit"
-              >
-                {modalWindowType}
-              </Button>
-            </div>
-          </form>
-        </div>
-      </Modal>
+              Clear
+            </Button>
+            <Button
+              disabled={pristine || submitting}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              {submitButtonInner(isModalSubmitButtonLoading, initialValues.id)}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </div>
   );
 };
 
 const mapStateToProps = ({
-  modalWindow: { modalWindowType, initialValues }
+  modalWindow: { initialValues, isModalOpen },
+  recipeList: { isModalSubmitButtonLoading }
 }) => ({
-  modalWindowType,
-  initialValues
+  initialValues,
+  isModalOpen,
+  isModalSubmitButtonLoading
 });
 
 const mapDispatchToProps = {
-  toggleModalWindowType
+  changeModalState
 };
 
 export default compose(
