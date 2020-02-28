@@ -10,3 +10,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+::-webkit-scrollbar,
+::-webkit-scrollbar:horizontal,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+@media (max-width: 400px) {
+  body {
+    width: 400px;
+  }
+}

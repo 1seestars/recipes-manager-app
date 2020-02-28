@@ -11,6 +11,50 @@ import { RenderTextField } from "../RenderTextField";
 import { changeModalState } from "../../store/modalWindow/actions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import red from "@material-ui/core/colors/red";
+import Slide from "@material-ui/core/Slide";
+import styled from "styled-components";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const StyledDialogActions = styled(DialogActions)`
+  && {
+    justify-content: center;
+  }
+`;
+
+const ActionButton = styled(Button)`
+  width: 100px;
+`;
+
+const StyledDialogWrapper = styled.div`
+  text-align: right;
+`;
+
+const StyledDialogContent = styled(DialogContent)`
+  && {
+    width: 28vw;
+    @media (max-width: 800px) {
+      width: 70vw;
+    }
+  }
+`;
+
+const CloseButton = styled.button`
+  border-radius: 50%;
+  border: none;
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+  margin: 1% 1% 0;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  :active {
+    transform: scale(1.2);
+  }
+`;
 
 const ModalWindow = ({
   initialValues,
@@ -36,44 +80,59 @@ const ModalWindow = ({
     }
   };
 
+  const clearButtonInner = values => {
+    if (values) {
+      return "Undo";
+    } else {
+      return "Clear";
+    }
+  };
+
   return (
     <div>
-      <Dialog open={isModalOpen}>
-        <button onClick={() => changeModalState(false)}>&times;</button>
-        <form onSubmit={handleSubmit}>
-          <DialogContent>
-            <Field
-              name="name"
-              component={RenderTextField}
-              label="Recipe name"
-              type="text"
-            />
-            <Field
-              name="description"
-              component={RenderTextField}
-              label="Description"
-              type="text"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              disabled={pristine || submitting}
-              variant="contained"
-              type="button"
-              onClick={reset}
-            >
-              Clear
-            </Button>
-            <Button
-              disabled={pristine || submitting}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              {submitButtonInner(isModalSubmitButtonLoading, initialValues.id)}
-            </Button>
-          </DialogActions>
-        </form>
+      <Dialog open={isModalOpen} TransitionComponent={Transition}>
+        <StyledDialogWrapper>
+          <CloseButton onClick={() => changeModalState(false)}>
+            &times;
+          </CloseButton>
+          <form onSubmit={handleSubmit}>
+            <StyledDialogContent>
+              <Field
+                name="name"
+                component={RenderTextField}
+                label="Recipe name"
+                type="text"
+              />
+              <Field
+                name="description"
+                component={RenderTextField}
+                label="Description"
+                type="text"
+              />
+            </StyledDialogContent>
+            <StyledDialogActions>
+              <ActionButton
+                disabled={pristine || submitting}
+                variant="contained"
+                type="button"
+                onClick={reset}
+              >
+                {clearButtonInner(initialValues.id)}
+              </ActionButton>
+              <ActionButton
+                disabled={pristine || submitting}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                {submitButtonInner(
+                  isModalSubmitButtonLoading,
+                  initialValues.id
+                )}
+              </ActionButton>
+            </StyledDialogActions>
+          </form>
+        </StyledDialogWrapper>
       </Dialog>
     </div>
   );

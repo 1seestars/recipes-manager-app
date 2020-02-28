@@ -1,6 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import { connect } from "react-redux";
 import { deleteRecipe } from "../../store/recipeList/actions";
 import {
@@ -10,6 +8,34 @@ import {
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
+import styled from "styled-components";
+import Fab from "@material-ui/core/Fab";
+import EditIcon from "@material-ui/icons/Edit";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+
+const ManipulateItemButtonsContainer = styled.div`
+  width: 100%;
+  margin: 5% 0 0 0;
+  text-align: center;
+`;
+
+const ActionButton = styled(Fab)`
+  && {
+    display: inline-block;
+    color: white;
+    margin: 0 0.5%;
+    width: 30px;
+    height: 48px;
+    line-height: 60px;
+    text-align: center;
+    padding: 0;
+    background: ${props => props.background};
+    :hover {
+      background: ${props => props.hover};
+    }
+  }
+`;
 
 const ManipulateItemButtons = ({
   recipe,
@@ -24,8 +50,9 @@ const ManipulateItemButtons = ({
   };
 
   return (
-    <div>
-      <Button
+    <ManipulateItemButtonsContainer>
+      <ActionButton
+        title="Edit"
         variant="contained"
         color="secondary"
         onClick={() =>
@@ -35,21 +62,24 @@ const ManipulateItemButtons = ({
             recipe.versions[recipe.versions.length - 1].description
           )
         }
+        background={"orange"}
+        hover={"#e58d00"}
       >
-        Edit
-      </Button>
+        <EditIcon />
+      </ActionButton>
       {recipe.versions.length < 2 ? (
-        <Button disabled variant="outlined" color="primary">
-          ↺ Versions
-        </Button>
+        <ActionButton disabled variant="outlined">
+          <ScheduleIcon />
+        </ActionButton>
       ) : (
         <Link to={`/recipe/${recipe._id}`}>
-          <Button variant="outlined" color="primary">
-            ↺ Versions
-          </Button>
+          <ActionButton variant="outlined" color="primary" title="Versions">
+            <ScheduleIcon />
+          </ActionButton>
         </Link>
       )}
-      <Button
+      <ActionButton
+        title="Delete"
         variant="contained"
         color="secondary"
         onClick={() => deleteRecipe(recipe._id)}
@@ -57,10 +87,10 @@ const ManipulateItemButtons = ({
         {isDeleteButtonLoading ? (
           <CircularProgress size={24} color={red[500]} />
         ) : (
-          <DeleteIcon />
+          <DeleteOutlineIcon />
         )}
-      </Button>
-    </div>
+      </ActionButton>
+    </ManipulateItemButtonsContainer>
   );
 };
 

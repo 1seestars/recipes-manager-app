@@ -2,6 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { toastr } from "react-redux-toastr";
+import styled from "styled-components";
+import { MessageContainer, MessageSymbol } from "../styled/MesageContainer";
+
+const LoaderContainer = styled.div`
+  width: 100%;
+  padding: 10% 0;
+  text-align: center;
+`;
 
 const Loader = ({
   isMainPageLoading,
@@ -14,16 +22,16 @@ const Loader = ({
   if (toastrSuccess) toastr.success("Success", toastrSuccess);
   if (isMainPageLoading) {
     return (
-      <div style={{ width: "100%", padding: "150px 0", textAlign: "center" }}>
+      <LoaderContainer>
         <CircularProgress color="primary" />
-      </div>
+      </LoaderContainer>
     );
   } else if (mainNetworkError) {
     return (
-      <div className="badConnectAlert">
-        <span style={{ fontWeight: "700", margin: "0 20px 0 40px" }}>✖</span>
-        <span style={{ fontWeight: "700" }}>{mainNetworkError}</span>
-      </div>
+      <MessageContainer background={"#ffd8d3"}>
+        <MessageSymbol>✖</MessageSymbol>
+        <span>{mainNetworkError}</span>
+      </MessageContainer>
     );
   } else {
     return children;

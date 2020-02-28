@@ -33,14 +33,15 @@ export const recipeListReducer = (
     case SET_CURRENT_RECIPE:
       return { ...state, currentRecipe: action.payload };
     case ADD_NEW_RECIPE:
-      return { ...state, recipes: [...state.recipes, action.payload] };
+      return { ...state, recipes: [action.payload, ...state.recipes] };
     case CHANGE_RECIPE:
+      const newArray = [...state.recipes];
+      const oldRecipe = newArray.find(item => item._id === action.payload._id);
+      const oldRecipeIndex = newArray.indexOf(oldRecipe);
+      newArray[oldRecipeIndex] = action.payload;
       return {
         ...state,
-        recipes: [
-          ...state.recipes.filter(item => item._id !== action.payload._id),
-          action.payload
-        ]
+        recipes: newArray
       };
     case REMOVE_RECIPE:
       return {

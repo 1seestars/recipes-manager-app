@@ -66,7 +66,7 @@ export const getRecipes = () => async dispatch => {
   try {
     dispatch(setMainLoading(true));
     const data = await apiCall("recipes", "GET");
-    dispatch(setRecipes(data));
+    dispatch(setRecipes(data.reverse()));
   } catch (e) {
     dispatch(setMainPageError(e.message));
   } finally {

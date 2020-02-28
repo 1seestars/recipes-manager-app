@@ -8,6 +8,27 @@ import {
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import red from "@material-ui/core/colors/red";
+import styled from "styled-components";
+
+const HeadButton = styled(Button)`
+  && {
+    height: 40px;
+    display: inline-block;
+    border-radius: 5px;
+    width: 120px;
+    color: white;
+    line-height: 16px;
+    font-size: 16px;
+    padding: 8px 0;
+  }
+}
+`;
+
+const HeadButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 6% 0;
+`;
 
 const HeadButtons = ({
   recipes,
@@ -22,8 +43,8 @@ const HeadButtons = ({
   };
 
   return (
-    <div>
-      <Button
+    <HeadButtonsContainer>
+      <HeadButton
         variant="contained"
         color="secondary"
         disabled={!recipes.length}
@@ -34,11 +55,11 @@ const HeadButtons = ({
         ) : (
           "Delete All"
         )}
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleClick}>
-        ✚ Add
-      </Button>
-    </div>
+      </HeadButton>
+      <HeadButton variant="contained" color="primary" onClick={handleClick}>
+        Add
+      </HeadButton>
+    </HeadButtonsContainer>
   );
 };
 

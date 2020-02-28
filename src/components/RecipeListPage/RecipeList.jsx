@@ -11,6 +11,42 @@ import {
   getRecipes
 } from "../../store/recipeList/actions";
 import Loader from "../RecipeListPage/Loader";
+import styled from "styled-components";
+import { MessageContainer, MessageSymbol } from "../styled/MesageContainer";
+
+const StyledExpansionPanelSummary = styled(MuiExpansionPanelSummary)`
+  && {
+    overflow: scroll;
+  }
+  :hover {
+    background: #d8deff;
+  }
+  :focus {
+    background: #3f51b5;
+    color: white;
+  }
+`;
+
+const StyledMuiExpansionPanelDetails = styled(MuiExpansionPanelDetails)`
+  && {
+    display: block;
+    margin: 1% 0 0;
+  }
+`;
+
+const ExpansionPanelHeader = styled.div`
+  margin: 1% 0;
+`;
+
+const ExpansionPanelName = styled.div`
+  margin: 0 0 2%;
+  font-size: 25px;
+`;
+
+const ExpansionPanelDate = styled.div`
+  font-style: Italic;
+  opacity: 0.7;
+`;
 
 class RecipeList extends React.Component {
   state = {
@@ -42,38 +78,40 @@ class RecipeList extends React.Component {
 
   render() {
     const { recipes } = this.props;
-    const recipesReverse = recipes.reverse();
-
     return (
       <Loader>
         {recipes.length ? (
           <div>
-            {recipesReverse.reverse().map((recipe, index) => (
+            {recipes.map((recipe, index) => (
               <MuiExpansionPanel
                 expanded={this.state.expand === recipe._id}
                 onChange={this.handleChange(recipe._id)}
                 key={index}
               >
-                <MuiExpansionPanelSummary>
-                  {recipe.name}
-                  {this.showCreationDate(recipe.createdAt)}
-                </MuiExpansionPanelSummary>
-                <MuiExpansionPanelDetails>
-                  {recipe.versions[recipe.versions.length - 1].description}
+                <StyledExpansionPanelSummary>
+                  <ExpansionPanelHeader>
+                    <ExpansionPanelName>{recipe.name}</ExpansionPanelName>
+                    <ExpansionPanelDate>
+                      {this.showCreationDate(recipe.createdAt)}
+                    </ExpansionPanelDate>
+                  </ExpansionPanelHeader>
+                </StyledExpansionPanelSummary>
+                <StyledMuiExpansionPanelDetails>
+                  <div>
+                    {recipe.versions[recipe.versions.length - 1].description}
+                  </div>
                   <ManipulateItemButtons recipe={recipe} />
-                </MuiExpansionPanelDetails>
+                </StyledMuiExpansionPanelDetails>
               </MuiExpansionPanel>
             ))}
             <ModalWindow onSubmit={values => this.handleSubmit(values)} />
           </div>
         ) : (
-          <div className="emptyRecipeListAlert">
-            <span style={{ fontWeight: "700", margin: "0 20px 0 40px" }}>
-              ⚠
-            </span>
-            <span style={{ fontWeight: "700" }}>There are no recipes</span>
+          <MessageContainer background={"#ffecb3"}>
+            <MessageSymbol style={{ margin: "0 20px" }}>⚠</MessageSymbol>
+            <span>There are no recipes</span>
             <ModalWindow onSubmit={values => this.handleSubmit(values)} />
-          </div>
+          </MessageContainer>
         )}
       </Loader>
     );
@@ -95,3 +133,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);
+
+// <Alert severity="error">This is an error alert — check it out!</Alert>
+// <Alert severity="warning">This is a warning alert — check it out!</Alert>
