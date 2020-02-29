@@ -10,14 +10,11 @@ import {
   editRecipe,
   getRecipes
 } from "../../store/recipeList/actions";
-import Loader from "../RecipeListPage/Loader";
+import Loader from "./Loader";
 import styled from "styled-components";
 import { MessageContainer, MessageSymbol } from "../styled/MesageContainer";
 
 const StyledExpansionPanelSummary = styled(MuiExpansionPanelSummary)`
-  && {
-    overflow: scroll;
-  }
   :hover {
     background: #d8deff;
   }
@@ -34,13 +31,17 @@ const StyledMuiExpansionPanelDetails = styled(MuiExpansionPanelDetails)`
   }
 `;
 
+const ExpansionPanelDescription = styled.div`
+  overflow: scroll;
+`;
+
 const ExpansionPanelHeader = styled.div`
   margin: 1% 0;
 `;
 
 const ExpansionPanelName = styled.div`
   margin: 0 0 2%;
-  font-size: 25px;
+  font-size: 24px;
 `;
 
 const ExpansionPanelDate = styled.div`
@@ -97,9 +98,9 @@ class RecipeList extends React.Component {
                   </ExpansionPanelHeader>
                 </StyledExpansionPanelSummary>
                 <StyledMuiExpansionPanelDetails>
-                  <div>
+                  <ExpansionPanelDescription>
                     {recipe.versions[recipe.versions.length - 1].description}
-                  </div>
+                  </ExpansionPanelDescription>
                   <ManipulateItemButtons recipe={recipe} />
                 </StyledMuiExpansionPanelDetails>
               </MuiExpansionPanel>

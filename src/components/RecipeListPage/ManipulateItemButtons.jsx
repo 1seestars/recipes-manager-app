@@ -24,11 +24,10 @@ const ActionButton = styled(Fab)`
   && {
     display: inline-block;
     color: white;
-    margin: 0 0.5%;
+    margin: 0 1%;
     width: 30px;
-    height: 48px;
+    height: 47px;
     line-height: 60px;
-    text-align: center;
     padding: 0;
     background: ${props => props.background};
     :hover {

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getRecipe } from "../../store/recipeList/actions";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import Loader from "../RecipeListPage/Loader";
+import Loader from "./Loader";
 import styled from "styled-components";
 import { PageContainer } from "../styled/PageContainer";
 
@@ -16,32 +16,28 @@ const Header = styled.div`
   border-radius: 10px;
   margin: 8% 0;
   box-sizing: border-box;
+  overflow: scroll;
 `;
 
 const HeaderName = styled.div`
-  && {
-    margin: 0 0 0.7%;
-    font-size: 25px;
-  }
+  margin: 0 0 0.7%;
+  font-size: 24px;
 `;
 
 const HeaderDate = styled.div`
-  && {
-    font-style: Italic;
-    opacity: 0.7;
-  }
+  font-style: Italic;
+  opacity: 0.7;
 `;
 
 const Description = styled.div`
-  && {
-    width: 100%;
-    padding: 2%;
-    background: white;
-    border-radius: 10px;
-    margin: 2% 0;
-    box-sizing: border-box;
-    border: 1px solid lightgrey;
-  }
+  width: 100%;
+  padding: 2%;
+  background: white;
+  border-radius: 10px;
+  margin: 2% 0;
+  box-sizing: border-box;
+  border: 1px solid lightgrey;
+  overflow: scroll;
 `;
 
 const ButtonContainer = styled.div`
